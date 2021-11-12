@@ -30,4 +30,22 @@ result=NDSolve[Join[xequation,yequation,xinitial,yinitial],Join[xvar,yvar],{t,0,
 base=Table[Evaluate[Map[#[t]&,xvar]/.result],{t,0,length,step}][[;;,1]];
 pertubation=Table[Evaluate[Map[#[t]&,yvar]/.result],{t,0,length,step}][[;;,1]];
 
+
+plot1=Labeled[Show[Table[RadialAxisPlot[base[[i]],PlotRange->{-F*1.5,F*1.5},GridLines->Range[-F*1.5,F*1.5,5],Axes->Automatic,
+	Filling->False,
+	PlotLabel->"X",
+	(*PlotStyle\[Rule]Blend[{Darker[Blue],Blue,White,Red,Darker[Red]},(i-1000)/1000],*)
+	PlotStyle->ColorData["Rainbow"][(i-1000)/1000.],
+	BaseStyle->{FontFamily->"Arial",12}],{i,1000,2000,50}],ImageSize->280],
+	Labeled[Labeled[ImageCrop[Rasterize[BarLegend["Rainbow",Ticks->None,LegendLayout->"Row"]]],Style["t=0",{FontFamily->"Arial",20}],Left,Spacings->{1, 0}],
+	Style["t=1000",{FontFamily->"Arial",20}],Right,Spacings->{1, 0}],Bottom];
+plot2=Labeled[Show[Table[RadialAxisPlot[pertubation[[i]]*F,PlotRange->{-F*1.5,F*1.5},GridLines->Range[-F*1.5,F*1.5,5],
+	Axes->Table[If[i==0,True,If[Mod[i,J]==0,1,False]],{i,K*J}],
+	Filling->False,
+	PlotLabel->"Y",
+	(*PlotStyle\[Rule]Blend[{Darker[Blue],Blue,White,Red,Darker[Red]},(i-1000)/1000],*)
+	PlotStyle->ColorData["Rainbow"][(i-1000)/1000.],
+	BaseStyle->{FontFamily->"Arial",12}],{i,1000,2000,50}],ImageSize->280],
+	Labeled[Labeled[ImageCrop[Rasterize[BarLegend["Rainbow",Ticks->None,LegendLayout->"Row"]]],Style["t=0",{FontFamily->"Arial",20}],Left,Spacings->{1, 0}],
+	Style["t=1000",{FontFamily->"Arial",20}],Right,Spacings->{1, 0}],Bottom];
       
